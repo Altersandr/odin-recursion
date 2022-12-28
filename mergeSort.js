@@ -1,52 +1,43 @@
-const unsortedArray = [54, 456, 22, 6, 1, 667, 200, 34];
-let i = 0
+const unsortedArray = [256, 54, 22, 6, 1, 667, 200, 34];
 
-function merge(left, right, sorted){
-    let sA = sorted;
-    let i = left.length;
-    let j = right.length;
+function merge(left, right){
+    let sorted = [];
 
-    if(left[i] < right [j]){
-        sA.push(left[i])
-        console.log('left')
-        return sA
+    while(left.length !== 0 && right.length !== 0){
+    if(left[0]<=right[0]){
+        sorted.push(left[0]);
+        left.shift();
     }else{
-        sA.push(right[j])
-        console.log('right')
-        return sA
+        sorted.push(right[0]);
+        right.shift();
     }
+    }
+
+    while(left.length !== 0 ){
+        sorted.push(left[0]);
+        left.shift();
+    }
+
+    while(right.length !== 0 ){
+        sorted.push(right[0]);
+        right.shift();
+    }
+    return sorted;
+
+
 };
 
 function mergeSort (array){
-    let sortedArray = [];
-    let ar = array;
-    let leftArr;
-    let rightArr;
-    if(ar.length > 1){
-        leftArr = ar.slice(0, ar.length/2);
-        rightArr = ar.slice(ar.length/2);
-        // console.log(leftArr, rightArr)
-        mergeSort(leftArr);
-        mergeSort(rightArr);
-        sortedArray = merge(leftArr, rightArr, sortedArray);
-        console.log(sortedArray)
-        // for(let i = 0; i < leftArr.length;){
-        //     for(let j = 0; j < rightArr.length;)
-        //     if(leftArr[i]<rightArr[j]){
-        //         sortedArray.push(leftArr[i++])
-        //     }else{
-        //         sortedArray.push(rightArr[j++])
-        //     }
-        // }
-        // console.log(leftArr, rightArr)
+    let left;
+    let right;
+    if(array.length <= 1) return array 
+    else{
+        left = array.slice(0, array.length/2);
+        right = array.slice(array.length/2);
     }
-    console.log(sortedArray)
-    // return console.log(sortedArray)
-    // return console.log(leftArr, rightArr)
-    // return console.log(sortedArray)
-    // console.log(leftArr, rightArr)
-    
-};
+    left = mergeSort(left); 
+    right = mergeSort(right);
+    return merge(left, right); 
+}
 
-
-mergeSort(unsortedArray);
+console.log(mergeSort(unsortedArray));
